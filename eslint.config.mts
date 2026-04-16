@@ -13,5 +13,13 @@ export default defineConfig([
   { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
   { files: ["**/*.md"], plugins: { markdown }, language: "markdown/commonmark", extends: ["markdown/recommended"] },
   { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
-  { rules: {semi: ["warn", "always"]}}
+  
+  {
+    rules: {
+      indent: ["error", 2],
+      "linebreak-style": ["error", "unix"],
+      quotes: ["error", "single"],
+      semi: ["error", "always"],
+    },
+  }
 ]);

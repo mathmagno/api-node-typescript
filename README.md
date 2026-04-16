@@ -34,8 +34,8 @@ Servidor HTTP minimalista construído com **Express 5** e **TypeScript 6**, serv
 
 | Arquivo | Responsabilidade |
 |---|---|
-| `src/server/Server.ts` | Instancia o Express, registra a rota `GET /` e exporta o `app` |
-| `src/server/index.ts` | Importa o `app` e chama `app.listen(3333)` |
+| `src/server/Server.ts` | Instancia o Express, registra a rota `GET /` e exporta o `server` |
+| `src/server/index.ts` | Importa o `server` e chama `server.listen(3333)` |
 | `tsconfig.json` | Configuração do compilador TS (`target`, `module`, `rootDir`, `outDir`) |
 | `package.json` | Dependências e scripts npm |
 | `.gitignore` | Exclui `node_modules/` e `dist/` do repositório |
@@ -109,7 +109,6 @@ curl http://localhost:3333/
 | Script | Comando | Descrição |
 |---|---|---|
 | `dev` | `ts-node-dev ./src/server/index.ts` | Sobe o servidor em modo desenvolvimento com hot-reload |
-| `lint` | `eslint .` | Analisa o código com ESLint |
 
 ---
 
@@ -120,6 +119,8 @@ curl http://localhost:3333/
 | Pacote | Versão | Descrição |
 |---|---|---|
 | `express` | ^5.2.1 | Framework HTTP — roteamento e middlewares |
+
+> O `package.json` declara `"type": "commonjs"`, garantindo que todos os arquivos `.js` gerados sejam tratados como módulos CommonJS pelo Node.js (`require` / `module.exports`).
 
 ### Desenvolvimento
 
@@ -149,7 +150,8 @@ curl http://localhost:3333/
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true
-  }
+  },
+  "include": ["src"]
 }
 ```
 
@@ -161,6 +163,7 @@ curl http://localhost:3333/
 | `outDir` | `./dist` | Destino dos arquivos `.js` compilados |
 | `esModuleInterop` | `true` | Permite `import express from 'express'` |
 | `strict` | `true` | Ativa todas as verificações de tipo |
+| `include` | `["src"]` | Restringe a compilação ao diretório `src/` |
 
 ---
 
@@ -212,6 +215,9 @@ O projeto usa o novo formato **Flat Config** do ESLint (`eslint.config.mts`), qu
 { rules: { semi: ["warn", "always"] } }
 ```
 > Exige ponto e vírgula em todo o código — exibe aviso (`warn`) caso esteja ausente.
+
+**`defineConfig` helper:**  
+A configuração usa `defineConfig` importado de `eslint/config`, utilitário que fornece autocomplete e validação de tipos na hora de montar o array de configurações.
 
 **Por que Flat Config?**  
 É o formato atual do ESLint (v9+), mais simples e sem arquivos `.eslintrc`. Toda configuração fica em um único `eslint.config.*`.
